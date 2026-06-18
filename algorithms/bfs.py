@@ -1,7 +1,8 @@
 from collections import deque
+from typing import List, Tuple, Dict, Any
 
 
-def reconstruct_path(parent, start, goal):
+def reconstruct_path(parent: Dict[Tuple[int, int], Tuple[int, int]], start: Tuple[int, int], goal: Tuple[int, int]) -> List[Tuple[int, int]]:
     path = []
     current = goal
 
@@ -15,9 +16,14 @@ def reconstruct_path(parent, start, goal):
     return path
 
 
-def bfs(maze, start, goal):
+def bfs(maze: List[List[int]], start: Tuple[int, int], goal: Tuple[int, int]) -> Dict[str, Any]:
     """
     Breadth-First Search for shortest path in an unweighted grid graph.
+    
+    Time Complexity: O(V + E) where V is number of cells and E is number of edges.
+                     In a grid, E <= 4V, so it simplifies to O(V).
+    Space Complexity: O(V) for the queue, visited set, and parent dictionary.
+                      At worst, it stores all walkable cells.
     """
 
     rows = len(maze)

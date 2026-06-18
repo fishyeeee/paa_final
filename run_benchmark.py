@@ -39,12 +39,13 @@ def run_benchmark():
 
         start = (0, 0)
         goal = (size - 1, size - 1)
+        current_seed = base_seed + size
 
         maze = generate_maze(
             rows=size,
             cols=size,
             obstacle_prob=obstacle_prob,
-            seed=base_seed + size
+            seed=current_seed
         )
 
         bfs_time, bfs_result = average_runtime(
@@ -64,18 +65,19 @@ def run_benchmark():
         )
 
         same_path_length = (
-            bfs_result["path_length"] == astar_result["path_length"]
+            bfs_result["path_length"] == astar_result["path_length"] if bfs_result["path"] and astar_result["path"] else False # type: ignore
         )
 
         row = {
             "grid_size": f"{size}x{size}",
             "nodes": size * size,
+            "seed": current_seed,
             "bfs_runtime_ms": round(bfs_time, 4),
             "astar_runtime_ms": round(astar_time, 4),
-            "bfs_explored_nodes": bfs_result["explored_nodes"],
-            "astar_explored_nodes": astar_result["explored_nodes"],
-            "bfs_path_length": bfs_result["path_length"],
-            "astar_path_length": astar_result["path_length"],
+            "bfs_explored_nodes": bfs_result["explored_nodes"], # type: ignore
+            "astar_explored_nodes": astar_result["explored_nodes"], # type: ignore
+            "bfs_path_length": bfs_result["path_length"], # type: ignore
+            "astar_path_length": astar_result["path_length"], # type: ignore
             "same_path_length": same_path_length
         }
 

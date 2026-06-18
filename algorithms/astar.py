@@ -1,28 +1,20 @@
 import heapq
 from itertools import count
+from typing import List, Tuple, Dict, Any
+from algorithms.bfs import reconstruct_path
 
 
-def manhattan_distance(a, b):
+def manhattan_distance(a: Tuple[int, int], b: Tuple[int, int]) -> int:
     return abs(a[0] - b[0]) + abs(a[1] - b[1])
 
 
-def reconstruct_path(parent, start, goal):
-    path = []
-    current = goal
-
-    while current != start:
-        path.append(current)
-        current = parent[current]
-
-    path.append(start)
-    path.reverse()
-
-    return path
-
-
-def astar(maze, start, goal):
+def astar(maze: List[List[int]], start: Tuple[int, int], goal: Tuple[int, int]) -> Dict[str, Any]:
     """
     A* Search using Manhattan distance heuristic.
+    
+    Time Complexity: O(E log V) in the worst case using a Binary Heap (Priority Queue).
+                     In a grid where E <= 4V, this is O(V log V).
+    Space Complexity: O(V) for the priority queue, closed_set, g_score, and parent dict.
     """
 
     rows = len(maze)
